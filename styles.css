@@ -11,7 +11,7 @@ header {
     line-height: 43px;
 }
 
-.bg {background:url(imgs/bg.png);height: 100vh;}
+.bg {background:url(imgs/bg.png);padding-bottom: 40px;}
 footer{
      background: var(--color1);
      position: absolute;
@@ -181,23 +181,27 @@ header .col-sm-4 {
     
     button.btn.btn-primary.save {
         font-size: 15px;
-        margin-top: 4px;
+        /* margin-top: 4px; */
     }
     
     .ans {
         min-height: 9vh;
         padding: 5px 10px;
-        font-size: 17px;
+        font-size: 14px;
         padding-right: 10px;
     }
     
     .answers {
         margin-bottom: 10px;
+        margin-top: 5px;
     }
     
     footer {
         font-size: 12px;
         display: none;
     }
-
+p.info {
+    font-size: 15px;
+    margin-bottom: 0px;
+}
 }
