@@ -100,7 +100,7 @@ p.info {
 }
 .ans span {
     display: block;
-    text-align: left;
+    text-align: center;
     width: 153px;
     margin: auto;
     margin-top: 0;
@@ -191,10 +191,11 @@ header .col-sm-4 {
         font-size: 15px;
         padding-right: 10px;
         height: auto;
+        text-align: center;
     }
     
     .answers {
-        margin-bottom: 10px;
+        margin-bottom: .5vh;
         margin-top: 5px;
     }
     
