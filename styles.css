@@ -30,10 +30,11 @@ button.btn.btn-primary.save {
     font-size: 23px;
 }
 .progress i {
-    font-size: 20px;
+    font-size: 19px;
     position: relative;
-    top: -2px;
+    top: 1px;
     color: #f9f7f9;
+    transform: rotate(180deg);
 }
 button.btn.btn-primary.submit {
     background: #27ab3d;
@@ -77,6 +78,7 @@ button.btn.btn-primary.submit {
     margin-top: 30px;
     background: transparent;
     height: 16px;
+    transform: rotate(180deg);
 }
 
 p.info {
