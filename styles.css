@@ -72,10 +72,9 @@ button.btn.btn-primary.submit {
 }
 
 .progress {
-    margin-bottom: -12px;
     position: relative;
     z-index: 9;
-    margin-top: 30px;
+    margin-top: 10px;
     background: transparent;
     height: 16px;
     transform: rotate(180deg);
@@ -122,7 +121,7 @@ p.info {
 
     .ans {
         width: 100%;
-        height: 50px;
+        /* height: 50px; */
         margin-bottom: 10px;
     }
     
@@ -189,8 +188,9 @@ header .col-sm-4 {
     .ans {
         min-height: 9vh;
         padding: 5px 10px;
-        font-size: 14px;
+        font-size: 15px;
         padding-right: 10px;
+        height: auto;
     }
     
     .answers {
