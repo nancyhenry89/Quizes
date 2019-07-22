@@ -11,7 +11,7 @@ header {
     line-height: 43px;
 }
 
-.bg {background:url(imgs/bg.png);padding-bottom: 40px;}
+.bg {background:url(imgs/bg.png);padding-bottom: 40px;min-height: 100vh;}
 footer{
      background: var(--color1);
      position: absolute;
