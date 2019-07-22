@@ -163,24 +163,26 @@ header .col-sm-4 {
     .desktop{display: none}
     .question {
         font-size: 20px;
-        height: 100px;
+        min-height: 15vh;
         margin-bottom: 10px;
     }
     
     header {
-        font-size: 19px;
+        font-size: 15px;
+        height: 8vh;
+        padding: 1vh 0;
     }
     
-    button.btn.btn-primary.submit {font-size: 19px;height: 36px;}
+    button.btn.btn-primary.submit {font-size: 19px;height: 7vh;}
     
     button.btn.btn-primary.save {
         font-size: 15px;
-        margin-top: -4px;
+        margin-top: 4px;
     }
     
     .ans {
-        height: 34px;
-        padding: 5px 0;
+        min-height: 9vh;
+        padding: 5px 10px;
         font-size: 17px;
         padding-right: 10px;
     }
@@ -191,6 +193,7 @@ header .col-sm-4 {
     
     footer {
         font-size: 12px;
+        display: none;
     }
 
 }
