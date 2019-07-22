@@ -6,8 +6,9 @@ img{max-width:100%}
 .mobile{display:none}
 header {
     background:var(--color1);
-    padding: 21px 0;
-    font-size: 30px;
+    padding: 10px 0;
+    font-size: 23px;
+    line-height: 43px;
 }
 
 .bg {background:url(imgs/bg.png);height: 100vh;}
@@ -26,10 +27,14 @@ button.btn.btn-primary.save {
     background: #921d9e;
     border: 0;
     width: 180px;
-    font-size: 30px;
-    margin-top: -10px;
+    font-size: 23px;
 }
-
+.progress i {
+    font-size: 20px;
+    position: relative;
+    top: -2px;
+    color: #f9f7f9;
+}
 button.btn.btn-primary.submit {
     background: #27ab3d;
     border: 0;
@@ -58,17 +63,19 @@ button.btn.btn-primary.submit {
     width: 100%;
     background: #3d0741;
     border-radius: 8px;
-    height: 150px;
+    min-height: 150px;
     font-size: 30px;
     padding-top: 50px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .progress {
-    margin-bottom: -16px;
+    margin-bottom: -12px;
     position: relative;
     z-index: 9;
     margin-top: 30px;
+    background: transparent;
+    height: 16px;
 }
 
 p.info {
@@ -91,15 +98,19 @@ p.info {
 }
 .ans span {
     display: block;
-    text-align: center;
+    text-align: left;
     width: 153px;
     margin: auto;
-    margin-top: 18px;
+    margin-top: 0;
 }
 
 .ans label {
     text-align: left;
     width: 100%;
+}
+.bar {
+    background-image: linear-gradient(to right, #eca82c , #d4546a,#21aebb,#2f6dae);
+
 }
 @media screen and (max-width:768px){
     .bg {
@@ -149,6 +160,7 @@ header .col-sm-4 {
 }
 }
 @media screen and (max-width:500px){
+    .desktop{display: none}
     .question {
         font-size: 20px;
         height: 100px;
