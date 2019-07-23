@@ -108,7 +108,7 @@ p.info {
     width: 100%;
     margin: auto;
     margin-top: 0;
-    height: 100%;
+    height: auto;
     margin-bottom: 0;
     display: flex;
     justify-content: center;
