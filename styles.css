@@ -188,7 +188,7 @@ header .col-sm-4 {
 }
 @media screen and (max-width:500px){
 
-    .ans label{min-height: 9vh;}
+    .ans label{min-height: 80px;}
     .desktop{display: none}
     .question {
         font-size: 20px;
