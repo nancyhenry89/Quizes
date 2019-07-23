@@ -108,7 +108,7 @@ p.info {
     width: 100%;
     margin: auto;
     margin-top: 0;
-    height: auto;
+    height: 100%;
     margin-bottom: 0;
     display: flex;
     justify-content: center;
@@ -118,7 +118,7 @@ p.info {
 .ans label {
     text-align: center;
     width: 100%;
-    height: auto;
+    height: 100%;
     align-items: center;
     margin: 0;
     display: flex;
@@ -146,6 +146,7 @@ p.info {
         margin-top: 0;
         width: 95%;
         padding-right: 20px;
+        height: auto;
     }
 
 .ans label input {
@@ -188,7 +189,7 @@ header .col-sm-4 {
 }
 @media screen and (max-width:500px){
 
-    .ans label{min-height: 80px;}
+    .ans label{min-height: 80px;height: auto;}
     .desktop{display: none}
     .question {
         font-size: 20px;
