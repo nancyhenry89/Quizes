@@ -203,6 +203,7 @@ header .col-sm-4 {
         font-size: 15px;
         height: 8vh;
         padding: 1vh 0;
+        min-height: 42px;
     }
     
     button.btn.btn-primary.submit {font-size: 19px;height: 7vh;min-height: 40px;}
