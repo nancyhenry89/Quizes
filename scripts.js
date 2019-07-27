@@ -21,7 +21,33 @@ $('document').ready(function(){
         url: "http://api.sawdreamhome.com/api/Question/GetQuestionByCategoryAndQuestionNo/2069/1",
         
         success: function(data){
-           console.log(data);
+           $('.qTotal').text(data.noOfQuestion  );
+           $('.qNumber').text(data.question.questionOrder  );
+           $('.question').text(data.question.questionData  );
+           $('.a1 span').text(data.question.answer[0].correctAnser  );
+           $('.a2 span').text(data.question.answer[1].correctAnser  );
+           $('.a3 span').text(data.question.answer[2].correctAnser  );
+           $('.a4 span').text(data.question.answer[3].correctAnser  );
         }
       });
+     
+      function getToken(){
+
+        $.ajax({
+            type: "POST",
+            url: "http://api.sawdreamhome.com/api/user/login",
+            data: JSON.stringify({
+                "Username": "test",
+                "Password": "albeir4321"
+              }),
+              dataType: 'json',
+            success: function(response){
+
+            }
+          });
+
+
+          
+      }
+      getToken();
 });
