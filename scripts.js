@@ -15,5 +15,11 @@ countdown(function() {
    //question expired
 });
 $('document').ready(function(){
-
+    $.ajax({
+        type: "GET",
+        url: "http://api.sawdreamhome.com/api/Question/GetQuestionByCategoryAndQuestionNo/2069/1",
+        success: function(data){
+           console.log(data);
+        }
+      });
 });
