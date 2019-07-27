@@ -118,7 +118,7 @@ p.info {
 .ans label {
     text-align: center;
     width: 100%;
-    height: auto;
+    height: 100%;
     align-items: center;
     margin: 0;
     display: flex;

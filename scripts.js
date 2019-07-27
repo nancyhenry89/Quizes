@@ -17,7 +17,9 @@ countdown(function() {
 $('document').ready(function(){
     $.ajax({
         type: "GET",
+        crossDomain: true,
         url: "http://api.sawdreamhome.com/api/Question/GetQuestionByCategoryAndQuestionNo/2069/1",
+        
         success: function(data){
            console.log(data);
         }
