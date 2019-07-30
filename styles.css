@@ -8,6 +8,82 @@ img{max-width:100%}
     position: absolute;
     top: 3px;
 }
+.correct-ans {
+    border: 4px solid!important;
+}
+@keyframes zoominoutsinglefeatured {
+    0% {
+        transform: scale(1,1);
+    }
+    50% {
+        transform: scale(1.2,1.2);
+    }
+    100% {
+        transform: scale(1,1);
+    }
+}
+.correct-ans:before {
+    content: "";
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    display: block;
+    position: absolute;
+    right: 33px;
+    top: -10px;
+    border-radius: 50%;
+    animation: zoominoutsinglefeatured 1s infinite;
+}
+
+.correct-ans:after {
+    content: "";
+    width: 8px;
+    height: 16px;
+    position: absolute;
+    right: 43px;
+    border-right: 2px solid #27ab3e;
+    border-bottom: 2px solid #27ab3e;
+    transform: rotate(45deg);
+    top: -5px;
+}
+.result .word {
+    display: block;
+    color: #d318d3;
+    font-size: 50px;
+    top: 220px;
+    right: 0;
+    left: 0;
+    margin: auto;
+    position: absolute;
+}
+.result{
+    display:none;
+}
+ .result {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background: rgba(0,0,0,0.5);
+}
+
+.result img {
+    width: 330px;
+    top: 100px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+    .answers {
+        margin-bottom: .5vh;
+        margin-top: 5px;
+    }
+    
+.result>div{
+    display:none;
+}
 .mobile{display:none}
 header {
     background:var(--color1);
@@ -16,7 +92,7 @@ header {
     line-height: 43px;
 }
 
-.bg {background:url(imgs/bg.png);padding-bottom: 20px;min-height: 100vh;}
+.bg {background:url(imgs/bg.png);padding-bottom: 20px;height: 680px;min-height: 105vh;position: relative;}
 footer{
      background: var(--color1);
      position: absolute;
@@ -188,7 +264,7 @@ header .col-sm-4 {
 }
 @media screen and (max-width:767px){
 
-    .ans label{min-height: 80px;}
+    .ans label{min-height: 80px;height: auto;}
     .desktop{display: none}
     .question {
         font-size: 20px;
@@ -221,12 +297,7 @@ header .col-sm-4 {
         height: auto;
         text-align: center;
     }
-    
-    .answers {
-        margin-bottom: .5vh;
-        margin-top: 5px;
-    }
-    
+   
     footer {
         font-size: 12px;
         display: none;

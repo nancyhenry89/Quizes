@@ -15,6 +15,8 @@ countdown(function() {
    //question expired
 });
 $('document').ready(function(){
+    var correct=["Excellent","Great","Awesome","Amazing", "Super", "Fantastic","Nice job","Brilliant","Wonderful"]
+        
     $.ajax({
         type: "GET",
         crossDomain: true,
@@ -28,26 +30,78 @@ $('document').ready(function(){
            $('.a2 span').text(data.question.answer[1].correctAnser  );
            $('.a3 span').text(data.question.answer[2].correctAnser  );
            $('.a4 span').text(data.question.answer[3].correctAnser  );
+
+           $('.a1 input').attr('id',data.question.answer[0].answerId  );
+           $('.a2 input').attr('id',data.question.answer[1].answerId  );
+           $('.a3 input').attr('id',data.question.answer[2].answerId  );
+           $('.a4 input').attr('id',data.question.answer[3].answerId  );
+
+           $('.question').attr('id',data.question.questionId  );
+           
         }
       });
-     
-      function getToken(){
+      function checkAnswer(token,answers,qId){
+        
+        $.ajax({
+            type: "POST",
+            url: "http://api.sawdreamhome.com/api/question/getResultForQuestion",
+            beforeSend : function( xhr ) {
+                xhr.setRequestHeader( 'Authorization', 'Bearer  ' + token );
+                    xhr.setRequestHeader('content-type', "application/json")},
+            data: JSON.stringify({
+                "QuestionID":qId,"AnswerIDS":answers
+            }),
+            contentType: "application/json; charset=utf-8",
+            success: function(data){
+                $('.result').fadeIn();
+              if(data.data.result){
+                var random = correct[Math.floor(Math.random()*correct.length)]
 
+                $('.result .correct .word').text(random);
+                $('.result .correct').show();
+                $('.result .sorry').hide    ();
+                setTimeout(function(){
+                    $('.result').slideUp();
+                },2000);
+               
+              }else{
+                $('.result .sorry').show();
+                $('.result .correct').hide();
+                setTimeout(function(){
+                    $('.result').slideUp();
+                },2000);
+                $('#'+data.data.answerIDS).parents('.ans').addClass('correct-ans');
+              }
+            }
+          });
+
+    }
+      function getToken(answer,id){
         $.ajax({
             type: "POST",
             url: "http://api.sawdreamhome.com/api/user/login",
             data: JSON.stringify({
-                "Username": "test",
-                "Password": "albeir4321"
-              }),
-              dataType: 'json',
-            success: function(response){
-
+                "Username":"test","Password":"albeir4321"
+            }),
+            contentType: "application/json; charset=utf-8",
+            success: function(data){
+                checkAnswer(data.tokenKey,answer,id)
             }
           });
 
 
           
       }
-      getToken();
+$('.submit').click(function(){
+    id=$('.question').attr('id');
+    var answer="";
+    $('.ans input').each(function(){
+    if ($(this).is(':checked')){
+         answer=answer+$(this).attr('id')+",";
+    }
+    });
+    answer=answer.slice(0,-1)
+    getToken(answer,id);
+});
+      
 });
