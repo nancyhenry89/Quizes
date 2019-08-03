@@ -179,7 +179,8 @@ p.info {
 }
 
 .matching ul {
-    width: 50%;
+    width: calc(50% - 10px);
+    padding-left: 20px!important;
 }
 
 li.sorted1,li.sortable1 {
