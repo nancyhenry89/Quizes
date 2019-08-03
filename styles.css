@@ -22,6 +22,7 @@ img{max-width:100%}
         transform: scale(1,1);
     }
 }
+.hide{display: none}
 .correct-ans:before {
     content: "";
     width: 30px;
@@ -169,7 +170,58 @@ p.info {
     margin-top: 20px;
     margin-bottom: 40px;
 }
+.matching li {
+    margin-bottom: 20px;
+    list-style: none;
+    height: 38px;
+    line-height: 38px;
+    position: relative;
+}
 
+.matching ul {
+    width: 50%;
+}
+
+li.sorted1,li.sortable1 {
+    background: #2f6dae;
+}
+
+li.sorted2,li.sortable2 {
+    background: #eca82c;
+}
+
+li.sorted3,li.sortable3 {
+    background: #d4546a;
+}
+
+li.sorted4,li.sortable4 {
+    background: #21aebb;
+}
+
+ul#sorted li:after {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    display: block;
+    content: "";
+    right: -10px;
+    background: inherit;
+    top: 50%;
+    margin-top: -10px;
+    border-radius: 50%;
+}
+ul#sortable li:after {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    display: block;
+    content: "";
+    left: -10px;
+    background: #75118a;
+    top: 50%;
+    margin-top: -10px;
+    border-radius: 50%;
+}
 .ans {
     border: 1px solid #000;
     border-radius: 5px;

@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Quizes- MCQ</title>
+        <title>Quizes</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed&display=swap" rel="stylesheet">
@@ -32,6 +32,7 @@
 
             </div>
             <div class="question"></div>
+            <div class="answers-cont multi-select hide">
             <p class="info">SELECT ALL THAT APPLY</p>
             <div class="answers row">
                 <div class="col-md-3 col-sm-12">
@@ -53,6 +54,24 @@
             </div>
             <button type="button" class="btn btn-primary submit">Submit</button>
         </div>
+        <div class="answers-cont matching">
+            <div class="answers row">
+                <ul id="sorted">
+                            <li class="sorted1">Item 1</li>
+                            <li class="sorted2">Item 2</li>
+                            <li class="sorted3">Item 3</li>
+                            <li class="sorted4">Item 4</li>
+                          </ul>
+                <ul id="sortable">
+                    <li class="ui-state-default sortable1"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+                    <li class="ui-state-default sortable2"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+                    <li class="ui-state-default sortable3"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+                    <li class="ui-state-default sortable4"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+                  </ul>
+            </div>
+            <button type="button" class="btn btn-primary submit">Submit</button>
+        </div>
+        </div>
         <div class="result">
         <div class="correct">
             <img src="imgs/correct.png"/>
@@ -71,6 +90,8 @@
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
             <script src="scripts.js"></script>
     </body>

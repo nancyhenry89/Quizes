@@ -15,6 +15,8 @@ countdown(function() {
    //question expired
 });
 $('document').ready(function(){
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
     var correct=["Excellent","Great","Awesome","Amazing", "Super", "Fantastic","Nice job","Brilliant","Wonderful"]
         
     $.ajax({
