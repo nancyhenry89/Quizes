@@ -176,6 +176,7 @@ p.info {
     height: 38px;
     line-height: 38px;
     position: relative;
+    border-radius: 5px;
 }
 
 .matching ul {
