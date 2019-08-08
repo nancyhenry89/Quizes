@@ -14,6 +14,7 @@ function countdown(callback) {
 countdown(function() {
    //question expired
 });
+var questionType=5;
 $('document').ready(function(){
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
@@ -59,11 +60,11 @@ $('document').ready(function(){
                    $('#sorted .sorted2').text(data.question.answer[1].orginalAnswer  );
                    $('#sorted .sorted3').text(data.question.answer[2].orginalAnswer  );
                    $('#sorted .sorted4').text(data.question.answer[3].orginalAnswer  );
-        
-                   $('#sortable .sortable1').text(data.question.answer[0].orginalAnswer2  ).attr('id',data.question.answer[0].answerId  );;
-                   $('#sortable .sortable2').text(data.question.answer[1].orginalAnswer2  ).attr('id',data.question.answer[1].answerId  );;
-                   $('#sortable .sortable3').text(data.question.answer[2].orginalAnswer2  ).attr('id',data.question.answer[2].answerId  );;
-                   $('#sortable .sortable4').text(data.question.answer[3].orginalAnswer2  ).attr('id',data.question.answer[3].answerId  );;
+                   $('#sortable').attr('id1',data.question.answer[0].answerId).attr('id2',data.question.answer[1].answerId ).attr('id3',data.question.answer[2].answerId ).attr('id4',data.question.answer[3].answerId )
+                   $('#sortable .sortable1').text(data.question.answer[0].orginalAnswer2  )
+                   $('#sortable .sortable2').text(data.question.answer[1].orginalAnswer2  )
+                   $('#sortable .sortable3').text(data.question.answer[2].orginalAnswer2  )
+                   $('#sortable .sortable4').text(data.question.answer[3].orginalAnswer2  )
 
         
                    $('.question').attr('id',data.question.questionId  );
@@ -76,7 +77,7 @@ $('document').ready(function(){
         
     }
 
-     getQuestion(5);
+     getQuestion(questionType);
       function checkAnswer(token,answers,qId){
     /*    
         $.ajax({
@@ -121,33 +122,7 @@ $.ajax({
             xhr.setRequestHeader('content-type', "application/json")},
     data: JSON.stringify({
         "QuestionID":"1101",
-    "QuestionLst": [
-                {
-                    "answerId": 1327,
-             
-                    "correctAnser2": "3000 souls believed"
-            
-                },
-                {
-                    "answerId": 1328,
-          
-                 
-                    "correctAnser2": "He showed wisdom in every word he said"
-        
-                },
-                {
-                    "answerId": 1329,
-              
-                    "correctAnser2": "He was ordered to go see the Ethiopian eunuch"
-                   
-                },
-                {
-                    "answerId": 1330,
-            
-                    "correctAnser2": "They were given to speak in tongues"
-              
-                }
-            ]
+    "QuestionLst": answers
     }),
     contentType: "application/json; charset=utf-8",
     success: function(data){
@@ -189,16 +164,53 @@ $.ajax({
 
           
       }
+      function formAnswers(questionType){
+        id=$('.question').attr('id');
+        var answer="";
+          if(questionType==1){ 
+
+          $('.ans input').each(function(){
+          if ($(this).is(':checked')){
+               answer=answer+$(this).attr('id')+",";
+          }
+          });
+          answer=answer.slice(0,-1)
+          getToken(answer,id);
+          }else if(questionType==5){
+            var questionList=[
+                {
+                    "answerId":   $('#sortable').attr('id1'),
+             
+                    "correctAnser2": $('#sortable li:nth-of-type(1)').text()
+            
+                },
+                {
+                    "answerId": $('#sortable').attr('id2'),
+          
+                 
+                    "correctAnser2":$('#sortable li:nth-of-type(2)').text()
+        
+                },
+                {
+                    "answerId":  $('#sortable').attr('id3'),
+              
+                    "correctAnser2": $('#sortable li:nth-of-type(3)').text()
+                   
+                },
+                {
+                    "answerId":  $('#sortable').attr('id4'),
+            
+                    "correctAnser2": $('#sortable li:nth-of-type(4)').text()
+              
+                }
+            ];
+            getToken(questionList,id);
+
+          }
+      }
 $('.submit').click(function(){
-    id=$('.question').attr('id');
-    var answer="";
-    $('.ans input').each(function(){
-    if ($(this).is(':checked')){
-         answer=answer+$(this).attr('id')+",";
-    }
-    });
-    answer=answer.slice(0,-1)
-    getToken(answer,id);
+
+    formAnswers(questionType);
 });
       
 });
