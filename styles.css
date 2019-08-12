@@ -57,6 +57,19 @@ img{max-width:100%}
     margin: auto;
     position: absolute;
 }
+ul#sorted2 li {
+    float: left;
+    height: 50px;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+ul#sortable2 li {
+    float: left;
+    margin: 0 10px;
+    border-radius: 5px;
+    min-height: 60px;
+}
 .result{
     display:none;
 }
@@ -81,7 +94,7 @@ img{max-width:100%}
         margin-bottom: .5vh;
         margin-top: 5px;
     }
-    
+
 .result>div{
     display:none;
 }
@@ -193,21 +206,31 @@ ul#sortable {
 ul#sorted {
     z-index: 10;
 }
+ul#sorted2 {
+    list-style: none;
+    width: 100%;
+    padding-left: 0;
+}
 
+ul#sortable2 {
+    list-style: none;
+    width: 100%;
+    padding-left: 0;
+}
 ul#sorted {}
-li.sorted1,li.sortable1 {
+li.sorted0,li.sortable0 {
     background: #2f6dae;
 }
 
-li.sorted2,li.sortable2 {
+li.sorted1,li.sortable1 {
     background: #eca82c;
 }
 
-li.sorted3,li.sortable3 {
+li.sorted2,li.sortable2 {
     background: #d4546a;
 }
 
-li.sorted4,li.sortable4 {
+li.sorted3,li.sortable3 {
     background: #21aebb;
 }
 
@@ -283,7 +306,7 @@ ul#sortable li:after {
         /* height: 50px; */
         margin-bottom: 10px;
     }
-    
+
     .ans span {
         margin-top: 0;
         width: 95%;
@@ -294,7 +317,7 @@ ul#sortable li:after {
     /* right: 0; */
     /* left: auto; */
 }
-    
+
     .ans label input {
         right: 2px;
         left: auto!important;
@@ -340,21 +363,21 @@ header .col-sm-4 {
         padding: 20px 10px;
         font-size: 19px;
     }
-    
+
     header {
         font-size: 15px;
         height: 8vh;
         padding: 1vh 0;
         min-height: 42px;
     }
-    
+
     button.btn.btn-primary.submit {font-size: 19px;height: 7vh;min-height: 40px;}
-    
+
     button.btn.btn-primary.save {
         font-size: 15px;
         /* margin-top: 4px; */
     }
-    
+
     .ans {
         /* min-height: 9vh; */
         padding: 5px 10px;
@@ -363,7 +386,7 @@ header .col-sm-4 {
         height: auto;
         text-align: center;
     }
-   
+
     footer {
         font-size: 12px;
         display: none;
@@ -379,4 +402,5 @@ p.info {
     justify-content: center;
     flex-direction: column;
 }
-}   
+}
+  
