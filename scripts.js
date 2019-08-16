@@ -14,9 +14,34 @@ function countdown(callback) {
 countdown(function() {
     //question expired
 });
+
+function beforeQuestion(){
+  $("#count_num").slideDown();
+  $(function(){
+var timer = setInterval(function(){
+$("#count_num").html(function(i,html){
+
+if(parseInt(html)>0)
+   {
+   return parseInt(html)-1;
+   }
+   else
+   {
+   clearTimeout(timer);
+       //$("#count_num").slideUp();
+   }
+ });
+
+},1000);
+
+
+
+});
+}
 var questionType=4;
 var quizId=2069;
 var questionNumber=1;
+beforeQuestion();
 $('document').ready(function(){
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
@@ -36,7 +61,6 @@ $('document').ready(function(){
                 $('.qNumber').text(data.question.questionOrder  );
                 $('.question').text(data.question.questionData  );
                 if(type==1){
-                  debugger;
                     $('.multi-select').show();
 
                     $('.a1 span').text(data.question.answer[0].correctAnser  );
@@ -57,8 +81,8 @@ $('document').ready(function(){
                       $('.sorting #sortable2').attr('id'+[i]+'',data.question.answer[i].answerId);
                       $('.sorting #sortable2').append('<li  id="'+data.question.answer[i].answerId+'" class="ui-state-default sortable'+i+'"><span class="ui-icon ui-icon-arrowthick-2-n-s">'+data.question.answer[i].correctAnser+'</span></li>');
                     }
-                    $('#sorted2 li').attr('style','width : calc(100% / '+answersLength +' - 40px)');
-                    $('#sortable2 li').attr('style','width : calc(100% / '+answersLength +' - 40px)')
+               //     $('#sorted2 li').attr('style','width : calc(100% / '+answersLength +' - 40px)');
+                 //   $('#sortable2 li').attr('style','width : calc(100% / '+answersLength +' - 40px)')
 
 
                     $('.question').attr('id',data.question.questionId  );
@@ -160,13 +184,13 @@ $('document').ready(function(){
     function getToken(answer,id){
         $.ajax({
             type: "POST",
-            crossDomain: true,
             url: "http://api.sawdreamhome.com/api/user/login",
+            contentType: "application/json; charset=utf-8",
+
             data: JSON.stringify({
                 "Username":"test","Password":"albeir4321"
             }),
 
-            contentType: "application/json; charset=utf-8",
             success: function(data){
                 checkAnswer(data.tokenKey,answer,id)
             }
