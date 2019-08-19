@@ -1,19 +1,22 @@
-function countdown(callback) {
-    var bar = document.getElementById('progress'),
-        time = 1, max = 300,
-        int = setInterval(function() {
-            bar.style.width = Math.floor(100 * time++ / max) + '%';
-            if (time - 1 == max) {
-                clearInterval(int);
-                // 600ms - width animation time
-                callback && setTimeout(callback, 600);
-            }
-        }, 100);
+
+function progress(){
+    function countdown(callback) {
+        var bar = document.getElementById('progress'),
+            time = 1, max = 300,
+            int = setInterval(function() {
+                bar.style.width = Math.floor(100 * time++ / max) + '%';
+                if (time - 1 == max) {
+                    clearInterval(int);
+                    // 600ms - width animation time
+                    callback && setTimeout(callback, 600);
+                }
+            }, 100);
+    }
+    countdown(function() {
+        //question expired
+    });
 }
 
-countdown(function() {
-    //question expired
-});
 
 function beforeQuestion(){
   $("#count_num").slideDown();
@@ -43,6 +46,7 @@ var quizId=2069;
 var questionNumber=1;
 beforeQuestion();
 $('document').ready(function(){
+    progress();
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
     $( "#sortable2" ).sortable();
@@ -64,24 +68,31 @@ $('document').ready(function(){
                 $('.question').text(data.question.questionData  );
 
                 if(type==1){
-                    //select all that applies
+                        //select all that applies
 
-                    $('.multi-select').show();
-
-                    var width=12/answersLength;
-                    for(var i=0;i<answersLength;i++){
-                        $('.multi .answers').append('<div class="col-md-'+width+' col-sm-12"><div class="ans a'+(i+1)+'"><label><input id="'+data.question.answer[i].answerId+'" type="checkbox" name="checkbox" value=""><span>'+data.question.answer[i].correctAnser+'</span></label></div></div>');
-                      }
+                        $('.multi-select').show();
+                         $('.multi .answers').html('');
+                        var width=12/answersLength;
+                        for(var i=0;i<answersLength;i++){
+                            $('.multi .answers').append('<div class="col-md-'+width+' col-sm-12"><div class="ans a'+(i+1)+'"><label><input id="'+data.question.answer[i].answerId+'" type="checkbox" name="checkbox" value=""><span>'+data.question.answer[i].correctAnser+'</span></label></div></div>');
+                        }
                     $('.question').attr('id',data.question.questionId  );
-                }  else if (type==4){
+                } else if(type==2){
+                    //fill in the blank
+                    $('.fill').show();
+                    $('.question').wrapInner( "<span class='part1'></span>");
+                    $('.question').append($('<input id="fill"/>'));
+                    $('.question').append($('<span class="part2">'+data.question.assginQuastion+'</span>'));
+                    $('.question').attr('id',data.question.questionId  );
+
+                } else if (type==4){
                     $('.sorting').show();
                     for(var i=0;i<answersLength;i++){
                       $('.sorting #sorted2').append('<li class="sorted'+i+'"><span>'+(i+1)+'</span></li>');
                       $('.sorting #sortable2').attr('id'+[i]+'',data.question.answer[i].answerId);
                       $('.sorting #sortable2').append('<li  id="'+data.question.answer[i].answerId+'" class="ui-state-default sortable'+i+'"><span class="ui-icon ui-icon-arrowthick-2-n-s">'+data.question.answer[i].correctAnser+'</span></li>');
                     }
-               //     $('#sorted2 li').attr('style','width : calc(100% / '+answersLength +' - 40px)');
-                 //   $('#sortable2 li').attr('style','width : calc(100% / '+answersLength +' - 40px)')
+
 
 
                     $('.question').attr('id',data.question.questionId  );
@@ -103,6 +114,7 @@ $('document').ready(function(){
             }
         });
         $('.submit').removeAttr('disabled');
+        progress();
     }
 
 
@@ -124,12 +136,38 @@ $('document').ready(function(){
             crossDomain: true,
             contentType: "application/json; charset=utf-8",
             success: function(data){
-                showResult(data);
                 questionNumber++;
+                showResult(data);
+              
 
-                  getQuestion(quizId,questionNumber);
+                 
             }
         });
+    }else if(questionType==2 ){
+
+        //fill in the blanks
+        $.ajax({
+            type: "POST",
+            url: "http://api.sawdreamhome.com/api/question/getResultForQuestion",
+            beforeSend : function( xhr ) {
+                xhr.setRequestHeader( 'Authorization', 'Bearer  ' + token );
+                xhr.setRequestHeader('content-type', "application/json")},
+            data: JSON.stringify({
+                "QuestionID":$('.question').attr('id'),
+                "CorrectAnswer": $('.part1').text()+" "+$('#fill').val()+" "+$('.part2').text()
+            }),
+            crossDomain: true,
+            contentType: "application/json; charset=utf-8",
+            success: function(data){
+
+                questionNumber++;
+                 //sortResults(data)
+
+                  getQuestion(quizId,questionNumber);
+                  sortResults(data);
+            }
+        });
+        
     }else if(questionType==4 || questionType==5){
         $.ajax({
             type: "POST",
@@ -144,8 +182,8 @@ $('document').ready(function(){
             crossDomain: true,
             contentType: "application/json; charset=utf-8",
             success: function(data){
-                showResult(data);
                 questionNumber++;
+                 sortResults(data)
 
                   getQuestion(quizId,questionNumber);
             }
@@ -170,7 +208,7 @@ $('document').ready(function(){
 
 
     }
-    function showResult(data){
+    function sortResults(data){
         $('.result').fadeIn();
         if(data.data.result){
             var random = correct[Math.floor(Math.random()*correct.length)]
@@ -187,8 +225,41 @@ $('document').ready(function(){
             $('.result .correct').hide();
             setTimeout(function(){
                 $('.result').slideUp();
+ 
             },2000);
-            $('#'+data.data.answerIDS).parents('.ans').addClass('correct-ans');
+
+           
+        }
+    }
+    function showResult(data){
+        $('.result').fadeIn();
+        if(data.data.result){
+            var random = correct[Math.floor(Math.random()*correct.length)]
+
+            $('.result .correct .word').text(random);
+            $('.result .correct').show();
+            $('.result .sorry').hide    ();
+            setTimeout(function(){
+                $('.result').slideUp();
+                getQuestion(quizId,questionNumber);
+            },2000);
+
+        }else{
+            $('.result .sorry').show();
+            $('.result .correct').hide();
+            setTimeout(function(){
+                $('.result').slideUp();
+                var correctAnsers=data.data.answerIDS.split(',');
+                for (var i=0;i<correctAnsers.length;i++){
+                    $('#'+correctAnsers[i]).parents('.ans').addClass('correct-ans');
+                    
+                }
+                setTimeout(function(){
+                getQuestion(quizId,questionNumber);
+            },3000);
+            },2000);
+
+           
         }
     }
     function formAnswers(questionType){
@@ -203,6 +274,10 @@ $('document').ready(function(){
             });
             answer=answer.slice(0,-1)
             getToken(answer,id);
+        }else if (questionType==2){
+            //fill in the blanks
+            getToken("",id);
+
         }else if(questionType==4){
           var questionList=[
               {
@@ -258,5 +333,6 @@ $('document').ready(function(){
         $(this).attr('disabled','disabled')
         formAnswers(questionType);
     });
+
 
 });

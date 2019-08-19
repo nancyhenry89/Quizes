@@ -115,7 +115,18 @@ header {
     font-size: 23px;
     line-height: 43px;
 }
+#fill {
 
+    background: transparent;
+    border: none;
+        border-bottom-color: currentcolor;
+        border-bottom-style: none;
+        border-bottom-width: medium;
+    color: #eca82c;
+    border-bottom: 2px dashed #21aebb;
+    height: 30px;
+
+}
 .bg {background:url(imgs/bg.png);padding-bottom: 70px;height: auto;min-height: 100vh;position: relative;}
 footer{
      background: var(--color1);
