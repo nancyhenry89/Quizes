@@ -1,5 +1,7 @@
 
 function progress(){
+    $('.progress').remove();
+    $('.main-cont').prepend('<div class="progress"><div class="progress-bar  bar" id="progress" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div><i class="fa fa-clock-o" aria-hidden="true"></i></div>')
     function countdown(callback) {
         var bar = document.getElementById('progress'),
             time = 1, max = 300,
@@ -58,6 +60,11 @@ $('document').ready(function(){
             crossDomain: true,
             url: "http://api.sawdreamhome.com/api/Question/GetQuestionByCategoryAndQuestionNo/"+quizId+"/"+questionNumber+"",
             success: function(data){
+              setTimeout(function(){
+                    progress();
+              },1500);
+
+
                 var type=data.question.questionTypeId ;
                 questionType=type;
                 var answersLength=data.question.answer.length;
@@ -69,7 +76,6 @@ $('document').ready(function(){
 
                 if(type==1){
                         //select all that applies
-
                         $('.multi-select').show();
                          $('.multi .answers').html('');
                         var width=12/answersLength;
@@ -85,7 +91,12 @@ $('document').ready(function(){
                     $('.question').append($('<span class="part2">'+data.question.assginQuastion+'</span>'));
                     $('.question').attr('id',data.question.questionId  );
 
-                } else if (type==4){
+                } else if (type==3){
+                  // true or false
+                    $('.option').removeClass('correct-ans').removeClass('selected');
+                    $('.question').attr('id',data.question.questionId  );
+                    $('.truefalse').show();
+                }else if (type==4){
                     $('.sorting').show();
                     for(var i=0;i<answersLength;i++){
                       $('.sorting #sorted2').append('<li class="sorted'+i+'"><span>'+(i+1)+'</span></li>');
@@ -114,7 +125,7 @@ $('document').ready(function(){
             }
         });
         $('.submit').removeAttr('disabled');
-        progress();
+
     }
 
 
@@ -138,9 +149,9 @@ $('document').ready(function(){
             success: function(data){
                 questionNumber++;
                 showResult(data);
-              
 
-                 
+
+
             }
         });
     }else if(questionType==2 ){
@@ -167,7 +178,26 @@ $('document').ready(function(){
                   sortResults(data);
             }
         });
-        
+
+    }else if(questionType==3){
+      //true or false
+      $.ajax({
+          type: "POST",
+          url: "http://api.sawdreamhome.com/api/question/getResultForQuestion",
+          beforeSend : function( xhr ) {
+              xhr.setRequestHeader( 'Authorization', 'Bearer  ' + token );
+              xhr.setRequestHeader('content-type', "application/json")},
+          data: JSON.stringify({
+              "QuestionID":$('.question').attr('id'),
+              "isCorrect":answers
+          }),
+          crossDomain: true,
+          contentType: "application/json; charset=utf-8",
+          success: function(data){
+
+                sortResults(data,questionType);
+          }
+      });
     }else if(questionType==4 || questionType==5){
         $.ajax({
             type: "POST",
@@ -182,9 +212,9 @@ $('document').ready(function(){
             crossDomain: true,
             contentType: "application/json; charset=utf-8",
             success: function(data){
-                questionNumber++;
-                 sortResults(data)
 
+                 sortResults(data)
+  questionNumber++;
                   getQuestion(quizId,questionNumber);
             }
         });
@@ -208,7 +238,8 @@ $('document').ready(function(){
 
 
     }
-    function sortResults(data){
+    function sortResults(data,type){
+
         $('.result').fadeIn();
         if(data.data.result){
             var random = correct[Math.floor(Math.random()*correct.length)]
@@ -218,17 +249,40 @@ $('document').ready(function(){
             $('.result .sorry').hide    ();
             setTimeout(function(){
                 $('.result').slideUp();
+                if (type==3){
+                  questionNumber++;
+                  getQuestion(quizId,questionNumber);
+                }
             },2000);
 
         }else{
             $('.result .sorry').show();
             $('.result .correct').hide();
+            if(type==3){
+
+              //true or False
+              $('.truefalse .option').each(function(){
+                if($(this).hasClass('selected')){
+
+                }else{
+                    $(this).addClass('correct-ans');
+
+                                    setTimeout(function(){
+                                          questionNumber++;
+                                          getQuestion(quizId,questionNumber);
+                                        },3000);
+                }
+
+              });
+
+            }
             setTimeout(function(){
                 $('.result').slideUp();
- 
+
+
             },2000);
 
-           
+
         }
     }
     function showResult(data){
@@ -252,14 +306,14 @@ $('document').ready(function(){
                 var correctAnsers=data.data.answerIDS.split(',');
                 for (var i=0;i<correctAnsers.length;i++){
                     $('#'+correctAnsers[i]).parents('.ans').addClass('correct-ans');
-                    
+
                 }
                 setTimeout(function(){
                 getQuestion(quizId,questionNumber);
             },3000);
             },2000);
 
-           
+
         }
     }
     function formAnswers(questionType){
@@ -332,7 +386,17 @@ $('document').ready(function(){
     $('.submit').click(function(){
         $(this).attr('disabled','disabled')
         formAnswers(questionType);
-    });
+        $('.progress').css('width', '0%').attr('aria-valuenow', 0);
 
+    });
+    $('.truefalse .option').click(function(){
+      $('.progress').css('width', '0%').attr('aria-valuenow', 0);
+      $(this).addClass('selected');
+      if($(this).hasClass('true')){
+        getToken('true');
+      }else{
+        getToken('false');
+      }
+    });
 
 });
