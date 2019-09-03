@@ -47,6 +47,10 @@ img{max-width:100%}
 .answers-cont.truefalse {
   border: 0;
 }
+.correct-sort{background:green!important;border:2px solid white}
+.single-ans * {
+    cursor: pointer;
+  }
 .answers-cont.truefalse>div {
   width: 400px;
   margin: auto;

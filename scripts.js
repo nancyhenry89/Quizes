@@ -68,13 +68,28 @@ $('document').ready(function(){
                 var type=data.question.questionTypeId ;
                 questionType=type;
                 var answersLength=data.question.answer.length;
-
+                $('.question').html('');
+                $('.question').text(data.question.questionData);
                 $('.answers-cont').hide();
                 $('.qTotal').text(data.noOfQuestion  );
                 $('.qNumber').text(data.question.questionOrder  );
-                $('.question').text(data.question.questionData  );
+                $('.score span').text(data.score  );
 
-                if(type==1){
+                if(questionType==0){
+                    //Select one
+                    $('.select-one').show();
+                    $('.select-one .answers').html('');
+                    var width=12/answersLength;
+                    for(var i=0;i<answersLength;i++){
+                        $('.select-one .answers').append('<div class=" col-md-'+width+' col-sm-12 single-ans"><div id="'+data.question.answer[i].answerId+'" class="ans a'+(i+1)+'"><label><span>'+data.question.answer[i].correctAnser+'</span></label></div></div>');
+                    }
+                    $('.single-ans .ans').click(function(){
+                        $('.progress').css('width', '0%').attr('aria-valuenow', 0);
+                        $(this).addClass('selected');
+                        getToken($(this).attr('id'))
+                    });
+                      $('.question').attr('id',data.question.questionId  );
+                }else if(type==1){
                         //select all that applies
                         $('.multi-select').show();
                          $('.multi .answers').html('');
@@ -98,6 +113,7 @@ $('document').ready(function(){
                     $('.truefalse').show();
                 }else if (type==4){
                     $('.sorting').show();
+                    $('.sorting #sortable2').html('');
                     for(var i=0;i<answersLength;i++){
                       $('.sorting #sorted2').append('<li class="sorted'+i+'"><span>'+(i+1)+'</span></li>');
                       $('.sorting #sortable2').attr('id'+[i]+'',data.question.answer[i].answerId);
@@ -131,7 +147,30 @@ $('document').ready(function(){
 
     getQuestion(quizId,questionNumber);
     function checkAnswer(token,answers,qId){
-        if(questionType==1){
+        if(questionType==0){
+            //select one
+            $.ajax({
+
+                type: "POST",
+                url: "http://api.sawdreamhome.com/api/question/getResultForQuestion",
+                beforeSend : function( xhr ) {
+                    xhr.setRequestHeader( 'Authorization', 'Bearer  ' + token );
+                    xhr.setRequestHeader('content-type', "application/json")},
+                data: JSON.stringify({
+                    "QuestionID":$('.question').attr('id'),"AnswerIDS": answers
+                }),
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                success: function(data){
+                    questionNumber++;
+                    showResult(data,questionType);
+
+
+
+                }
+            });
+
+        }else if(questionType==1){
 
 
         $.ajax({
@@ -170,12 +209,11 @@ $('document').ready(function(){
             crossDomain: true,
             contentType: "application/json; charset=utf-8",
             success: function(data){
-
                 questionNumber++;
                  //sortResults(data)
 
-                  getQuestion(quizId,questionNumber);
-                  sortResults(data);
+
+                  sortResults(data,questionType);
             }
         });
 
@@ -213,9 +251,8 @@ $('document').ready(function(){
             contentType: "application/json; charset=utf-8",
             success: function(data){
 
-                 sortResults(data)
-  questionNumber++;
-                  getQuestion(quizId,questionNumber);
+                 sortResults(data,questionType)
+
             }
         });
     }
@@ -239,7 +276,6 @@ $('document').ready(function(){
 
     }
     function sortResults(data,type){
-
         $('.result').fadeIn();
         if(data.data.result){
             var random = correct[Math.floor(Math.random()*correct.length)]
@@ -249,7 +285,7 @@ $('document').ready(function(){
             $('.result .sorry').hide    ();
             setTimeout(function(){
                 $('.result').slideUp();
-                if (type==3){
+                if (type==3 || type==4){
                   questionNumber++;
                   getQuestion(quizId,questionNumber);
                 }
@@ -258,7 +294,25 @@ $('document').ready(function(){
         }else{
             $('.result .sorry').show();
             $('.result .correct').hide();
-            if(type==3){
+            if(type==2){
+              //fill in the blank
+              $('#fill').val(data.data.correctAnswer).css('color','#27ab3d');
+              setTimeout(function(){
+                  getQuestion(quizId,questionNumber);
+
+
+              },5000);
+              setTimeout(function(){
+                  $('.result').slideUp();
+
+
+              },2000);
+
+
+              }
+
+
+            else if(type==3){
 
               //true or False
               $('.truefalse .option').each(function(){
@@ -275,7 +329,23 @@ $('document').ready(function(){
 
               });
 
-            }
+            }else if(type==4){
+
+                //sorting
+                var sorted=data.data.questionLst;
+                $('.sorting #sortable2').html('');
+                for (var i=0;i<sorted.length;i++){
+                    $('.sorting #sortable2').append('<li  class="correct-sort ui-state-default sortable'+i+'"><span class="ui-icon ui-icon-arrowthick-2-n-s">'+sorted[i].correctAnser+'</span></li>');
+
+                }
+                setTimeout(function(){
+                    questionNumber++;
+                    getQuestion(quizId,questionNumber);
+
+
+                },5000);
+
+                }
             setTimeout(function(){
                 $('.result').slideUp();
 
@@ -285,7 +355,7 @@ $('document').ready(function(){
 
         }
     }
-    function showResult(data){
+    function showResult(data,type){
         $('.result').fadeIn();
         if(data.data.result){
             var random = correct[Math.floor(Math.random()*correct.length)]
@@ -301,6 +371,19 @@ $('document').ready(function(){
         }else{
             $('.result .sorry').show();
             $('.result .correct').hide();
+            if(type==0){
+              //select 1
+              setTimeout(function(){
+                  $('.result').slideUp();
+                  var correctAnsers=data.data.answerIDS;
+                      $('#'+correctAnsers).addClass('correct-ans');
+
+
+                  setTimeout(function(){
+                  getQuestion(quizId,questionNumber);
+              },3000);
+              },2000);
+            }else{
             setTimeout(function(){
                 $('.result').slideUp();
                 var correctAnsers=data.data.answerIDS.split(',');
@@ -312,7 +395,7 @@ $('document').ready(function(){
                 getQuestion(quizId,questionNumber);
             },3000);
             },2000);
-
+}
 
         }
     }
@@ -320,7 +403,10 @@ $('document').ready(function(){
         id=$('.question').attr('id');
         var answer="";
         var keyword;
-        if(questionType==1){
+        if(questionType==0){
+            //Select one
+
+        }else if(questionType==1){
             $('.ans input').each(function(){
                 if ($(this).is(':checked')){
                     answer=answer+$(this).attr('id')+",";
