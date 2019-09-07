@@ -285,7 +285,7 @@ $('document').ready(function(){
             $('.result .sorry').hide    ();
             setTimeout(function(){
                 $('.result').slideUp();
-                if (type==3 || type==4){
+                if (type==3 || type==4 || type==2){
                   questionNumber++;
                   getQuestion(quizId,questionNumber);
                 }

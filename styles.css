@@ -120,6 +120,7 @@ ul#sortable2 li {
     flex-direction: column;
     width: 100%;
     max-width: 100%;
+    cursor:grab;
 }
 .result{
     display:none;
@@ -166,6 +167,7 @@ header {
     color: #eca82c;
     border-bottom: 2px dashed #21aebb;
     height: 30px;
+    width:220px
 
 }
 .bg {background:url(imgs/bg.png);padding-bottom: 70px;height: auto;min-height: 100vh;position: relative;}
